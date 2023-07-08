@@ -1,0 +1,51 @@
+<div class="card p-3" *ngIf="venda">
+  <div class="row">
+    <div class="div col-6">
+      <div class="d-flex flex-column">
+        <span
+          ><strong>Produto: </strong>{{ venda.produto.nome
+          }}<span
+            class="badge badge-pill ml-2"
+            [ngClass]="
+              venda.produto.tipo === 'APARELHO'
+                ? 'badge-warning'
+                : 'badge-secondary'
+            "
+            >{{ venda.produto.tipo }}</span
+          >
+        </span>
+        <span><strong>Cliente: </strong>{{ venda.cliente.nome }}</span>
+        <span><strong>CPF: </strong>{{ venda.cliente.cpfOuCnpj }}</span>
+        <span
+          ><strong>Telefone(s): </strong
+          >{{ venda.cliente.telefones.join(", ") }}</span
+        >
+        <span
+          ><strong>E-mail(s): </strong
+          >{{ venda.cliente.emails.join(", ") }}</span
+        >
+      </div>
+    </div>
+    <div class="div col-6">
+      <div class="d-flex flex-column">
+        <span
+          ><strong>Data: </strong>{{ venda.data | date: "dd/MM/yyyy" }}</span
+        >
+        <span
+          ><strong>Data do vencimento: </strong
+          >{{ venda.dataVencimento | date: "dd/MM/yyyy" }}</span
+        >
+        <span
+          ><strong>Ponto de venda: </strong>{{ venda.pontoVenda.nome }}</span
+        >
+        <span
+          ><strong>Forma do pagamento: </strong>{{ venda.formaPagamento }}</span
+        >
+        <span
+          ><strong>Valor: </strong
+          >{{ venda.valorTotal | currency: "BRL":"symbol" }}</span
+        >
+      </div>
+    </div>
+  </div>
+</div>

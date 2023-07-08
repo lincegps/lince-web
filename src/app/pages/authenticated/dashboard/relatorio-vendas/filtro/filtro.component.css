@@ -1,0 +1,10 @@
+@media only screen and (max-width: 415px) {
+  .margin-label {
+    margin-bottom: 32px;
+  }
+}
+@media only screen and (min-width: 415px) {
+  .margin-label {
+    margin-bottom: 0;
+  }
+}

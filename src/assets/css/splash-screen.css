@@ -1,0 +1,43 @@
+.logging-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+}
+
+.loding-text {
+  margin-top: 15px;
+  animation: spinner_loading_text 1.5s infinite linear forwards reverse;
+}
+
+.logging {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 0.4rem solid rgba(0, 0, 0, 0.3);
+  border-top-color: #969899;
+  animation: 1s spin infinite linear;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner_loading_text {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}

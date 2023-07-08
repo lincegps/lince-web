@@ -1,0 +1,141 @@
+<fieldset class="scheduler-border">
+  <legend class="scheduler-border">Cadastro do contato</legend>
+  <app-info-venda [venda]="venda"></app-info-venda>
+  <form action="submit" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-4">
+        <div class="form-group">
+          <label>Número serie</label>
+          <span class="p-input-icon-right w-100">
+            <i
+              class="pi pi-spin pi-spinner"
+              *ngIf="loadingInputNumeroSerie"
+            ></i>
+            <input
+              type="text"
+              [style]="{ width: '100%' }"
+              [(ngModel)]="numeroSerie"
+              name="numeroSerie"
+              pInputText
+              (keyup)="debounce.next(numeroSerie)"
+              placeholder="Número de série do aparelho"
+            />
+          </span>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="venda">
+        <div class="form-group">
+          <label for="dataEntrada">Data do contato *</label>
+          <div>
+            <p-calendar
+              [showIcon]="true"
+              [maxDate]="maxDateValue"
+              [showButtonBar]="true"
+              [style]="{ width: '100%' }"
+              appendTo="body"
+              dateFormat="dd/mm/yy"
+              [(ngModel)]="contato.data"
+              name="data"
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+      <div class="col-4" *ngIf="venda">
+        <label>Tipo do contato *</label>
+        <p-dropdown
+          [options]="tiposContato"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="contato.tipo"
+          name="tipo"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="row" *ngIf="venda">
+      <div class="col-4">
+        <label>Feedback do contato *</label>
+        <p-dropdown
+          [options]="feedBackContato"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="contato.feedback"
+          name="feedback"
+        ></p-dropdown>
+      </div>
+      <div class="col-2">
+        <div class="p-field-checkbox">
+          <p-checkbox
+            [binary]="true"
+            inputId="satisfeito"
+            [(ngModel)]="contato.satisfeito"
+            name="satisfeito"
+          ></p-checkbox>
+          <label
+            for="satisfeito"
+            style="margin-bottom: 0; margin-top: 37px; margin-left: 15px"
+            >Satisfeito</label
+          >
+        </div>
+      </div>
+      <div class="col-3" *ngIf="contato?.tipo === 'LIGACAO_TELEFONICA'">
+        <div class="p-field-checkbox">
+          <p-checkbox
+            [binary]="true"
+            inputId="retornarLigacao"
+            [(ngModel)]="contato.retornarLigacao"
+            name="retornarLigacao"
+          ></p-checkbox>
+          <label
+            for="retornarLigacao"
+            style="margin-bottom: 0; margin-top: 37px; margin-left: 15px"
+            >Rotornar contato</label
+          >
+        </div>
+      </div>
+      <div class="col-3" *ngIf="contato?.retornarLigacao">
+        <div class="form-group">
+          <label for="dataEntrada">Data para retorno</label>
+          <div>
+            <p-calendar
+              [showIcon]="true"
+              [maxDate]="maxDateValue"
+              [showButtonBar]="true"
+              [style]="{ width: '100%' }"
+              appendTo="body"
+              dateFormat="dd/mm/yy"
+              [(ngModel)]="contato.dataRetornoLigacao"
+              name="dataRetorno"
+            ></p-calendar>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3" *ngIf="venda">
+      <div class="col-md-12">
+        <label>Observação</label>
+        <textarea
+          [style]="{ width: '100%' }"
+          pInputTextarea
+          autoResize="autoResize"
+          [(ngModel)]="contato.observacao"
+          name="observacao"
+        ></textarea>
+      </div>
+    </div>
+    <div class="d-flex justify-content-center mt-4" *ngIf="venda">
+      <button
+        pButton
+        type="button"
+        label="Fechar"
+        class="p-button-secondary mr-3"
+        (click)="fecharDialog()"
+      ></button>
+      <button
+        pButton
+        type="submit"
+        label="Salvar"
+        [disabled]="
+          !venda.id || !contato.data || !contato.tipo || !contato.feedback
+        "
+      ></button>
+    </div>
+  </form>
+</fieldset>

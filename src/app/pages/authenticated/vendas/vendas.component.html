@@ -1,0 +1,153 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Pesquisar vendas</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            class="btn btn-sm btn-primary mr-3"
+            type="button"
+            (click)="exportToExcel()"
+          >
+            <em class="fas fa-file-excel mr-2"></em>
+            <span
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+              *ngIf="realizandoDownload"
+            ></span>
+            {{ realizandoDownload ? "Aguarde..." : "Exportar" }}
+          </button>
+          <button
+            pButton
+            pRipple
+            label="Nova venda"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openDialogVendaForm()"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator-2"></div>
+    <app-venda-filtro (filtroEvent)="filtrar($event)"></app-venda-filtro>
+    <div class="card">
+      <p-table
+        *ngIf="vendas.length > 0; else templateListEmpty"
+        [value]="vendas"
+        [responsive]="true"
+        [paginator]="true"
+        [rows]="filtro.itensPorPagina"
+        [lazy]="true"
+        [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)"
+        #tabela
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Ponto de venda</th>
+            <th>Cliente</th>
+            <th>Produto</th>
+            <th>Número de série</th>
+            <th>Data</th>
+            <th>Data vencimento</th>
+            <th>Forma de pagamento</th>
+            <th>Status</th>
+            <th>Nota fiscal emitida</th>
+            <th>Valor total</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-venda>
+          <tr>
+            <td>{{ venda.pontoVenda.nome }}</td>
+            <td>{{ venda.cliente.nome }}</td>
+            <td>
+              <span class="d-block">{{ venda.produto.nome }}</span>
+              <span
+                class="badge badge-pill"
+                [ngClass]="
+                  venda.produto.tipo === tipoProduto.APARELHO
+                    ? 'badge-warning'
+                    : 'badge-secondary'
+                "
+                >{{ venda.produto.tipo }}</span
+              >
+            </td>
+            <td>{{ venda.numeroSerie }}</td>
+            <td>{{ venda.data | date: "dd/MM/yyyy" }}</td>
+            <td>{{ venda.dataVencimento | date: "dd/MM/yyyy" }}</td>
+            <td>{{ venda.formaPagamento }}</td>
+            <td>
+              <span
+                class="badge badge-pill"
+                [ngClass]="{
+                  'badge-success': venda.statusVenda === status.PAGO,
+                  'badge-danger': venda.statusVenda === status.CANCELADA,
+                  'badge-warning': venda.statusVenda === status.PENDENTE
+                }"
+              >
+                {{ venda.statusVenda }}</span
+              >
+            </td>
+            <td>
+              <span *ngIf="venda.indNotaFiscal">SIM</span>
+              <span *ngIf="!venda.indNotaFiscal">NÃO</span>
+            </td>
+            <td>
+              <strong>
+                {{ venda.valorTotal | currency: "BRL":"symbol" }}
+              </strong>
+            </td>
+            <td>
+              <button
+                pButton
+                pRipple
+                icon="far fa-eye"
+                class="p-button-rounded p-button-secondary mr-2 mb-2"
+                (click)="openVendaDetalhe(venda)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="fas fa-phone-volume"
+                class="p-button-rounded p-button-secondary mr-2 mb-2"
+                (click)="openContatoPosVendaForm(venda.numeroSerie)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="openDialogVendaForm(venda.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="onConfirmDelete(venda.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            No total, existem {{ totalRegistros }} vendas.
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+  <ng-template #templateListEmpty>
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 300px"
+    >
+      <h5>Nenhuma venda realizada até o momento.</h5>
+    </div>
+  </ng-template>
+</div>

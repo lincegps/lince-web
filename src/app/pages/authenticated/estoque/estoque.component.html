@@ -1,0 +1,222 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Estoque</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            label="Entrada no estoque"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openModalMovimentacao(tipoMovimentacao.ENTRADA)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            label="Movimentação"
+            icon="fas fa-exchange-alt"
+            class="p-button-danger btn-sm"
+            (click)="openModalMovimentacao(tipoMovimentacao.SAIDA)"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="separator-2"></div>
+  </div>
+  <div class="mt-4 mb-2">
+    <div class="row mt-4">
+      <div class="col-lg-3 col-xl-3 col-md-12 col-sm-12 col-12">
+        <span
+          class="p-float-label"
+          [ngClass]="{ 'filtro-ativo': filtro.tipoProduto }"
+        >
+          <p-dropdown
+            id="produto"
+            [(ngModel)]="filtro.tipoProduto"
+            [options]="produtos"
+            [showClear]="true"
+            [filter]="true"
+            [autoDisplayFirst]="false"
+            styleClass="font-filtros"
+            emptyFilterMessage="Nenhum resultado encontrado."
+            [style]="{ width: '100%' }"
+            (onChange)="pesquisar()"
+          >
+          </p-dropdown>
+          <label class="input-label" for="produto">Produto</label>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <span class="p-float-label">
+          <p-calendar
+            [style]="{ width: '100%' }"
+            [(ngModel)]="filtro.dataInicio"
+            [locale]="pt"
+            [showButtonBar]="true"
+            [showIcon]="true"
+            [style]="{ width: '100%' }"
+            appendTo="body"
+            dateFormat="dd/mm/yy"
+            (onSelect)="pesquisar()"
+            (onClearClick)="pesquisar()"
+          ></p-calendar>
+          <label for="calendar">Data Inicio</label>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <span class="p-float-label">
+          <p-calendar
+            [style]="{ width: '100%' }"
+            [(ngModel)]="filtro.dataFim"
+            [locale]="pt"
+            [showButtonBar]="true"
+            [showIcon]="true"
+            [style]="{ width: '100%' }"
+            appendTo="body"
+            dateFormat="dd/mm/yy"
+            (onSelect)="pesquisar()"
+            (onClearClick)="pesquisar()"
+          ></p-calendar>
+          <label for="calendar">Data Fim</label>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <span
+          class="p-float-label"
+          [ngClass]="{ 'filtro-ativo': filtro.pontoVendaOrigem }"
+        >
+          <p-dropdown
+            id="pontoVendaOrigem"
+            [(ngModel)]="filtro.pontoVendaOrigem"
+            [options]="pontosVendas"
+            [showClear]="true"
+            [filter]="true"
+            [autoDisplayFirst]="false"
+            styleClass="font-filtros"
+            emptyFilterMessage="Nenhum resultado encontrado."
+            [style]="{ width: '100%' }"
+            (onChange)="pesquisar()"
+          >
+          </p-dropdown>
+          <label class="input-label" for="pontoVendaOrigem">Origem</label>
+        </span>
+      </div>
+      <div class="col-md-2">
+        <span
+          class="p-float-label"
+          [ngClass]="{ 'filtro-ativo': filtro.pontoVendaDestino }"
+        >
+          <p-dropdown
+            id="pontoVendaDestino"
+            [(ngModel)]="filtro.pontoVendaDestino"
+            [options]="pontosVendas"
+            [showClear]="true"
+            [filter]="true"
+            [autoDisplayFirst]="false"
+            styleClass="font-filtros"
+            emptyFilterMessage="Nenhum resultado encontrado."
+            [style]="{ width: '100%' }"
+            (onChange)="pesquisar()"
+          >
+          </p-dropdown>
+          <label class="input-label" for="pontoVendaDestino">Destino</label>
+        </span>
+      </div>
+      <div class="col-md-1">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Limpar"
+            class="p-button-raised p-button-secondary p-button-text mr-3"
+            (click)="limparFiltro()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p-table
+    *ngIf="movimentaoes?.length > 0; else templateListEmpty"
+    [value]="movimentaoes"
+    [responsive]="true"
+    [paginator]="true"
+    [rows]="filtro.itensPorPagina"
+    [lazy]="true"
+    [totalRecords]="totalRegistros"
+    (onLazyLoad)="aoMudarPagina($event)"
+    #tabela
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Produto</th>
+        <th>Data</th>
+        <th>Quantidade</th>
+        <th>Origem</th>
+        <th>Destino</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-movimentacao>
+      <tr>
+        <td>
+          <span class="d-block">{{ movimentacao.nomeProduto }}</span>
+          <span
+            class="badge badge-pill"
+            [ngClass]="
+              movimentacao.tipoProduto === 'APARELHO'
+                ? 'badge-warning'
+                : 'badge-secondary'
+            "
+          >
+            {{ movimentacao.tipoProduto }}</span
+          >
+        </td>
+        <td>{{ movimentacao.data | date: "dd/MM/yyyy" }}</td>
+        <td rowspan="1">{{ movimentacao.quantidade }}</td>
+        <td>{{ movimentacao.pontoVendaDTOOrigem.nome }}</td>
+        <td>{{ movimentacao.pontoVendaDTODestino.nome }}</td>
+        <td class="d-flex justify-content-center">
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-success mr-2"
+            (click)="
+              openModalMovimentacao(
+                movimentacao.tipoMovimentacao,
+                movimentacao.id
+              )
+            "
+          ></button>
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="p-button-rounded p-button-danger"
+            (click)="confirmDelete(movimentacao.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="summary">
+      <div class="p-d-flex p-ai-center p-jc-between">
+        No total, existem
+        {{ totalRegistros }} movimentações.
+      </div>
+    </ng-template>
+  </p-table>
+  <ng-template #templateListEmpty>
+    <div
+      class="d-flex justify-content-center align-items-center"
+      style="height: 300px"
+    >
+      <h5>Nenhuma movimentação no estoque realizada até o momento.</h5>
+    </div>
+  </ng-template>
+</div>

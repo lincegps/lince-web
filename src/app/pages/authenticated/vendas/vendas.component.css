@@ -1,0 +1,13 @@
+.iconPointer:hover {
+  cursor: pointer;
+}
+
+.botao-exportar {
+  font-size: 1.3em;
+}
+
+.spiner-custom {
+  font-size: 1.7em;
+  color: #ff0f0f;
+  pointer-events: none;
+}

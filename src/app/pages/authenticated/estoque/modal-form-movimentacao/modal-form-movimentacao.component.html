@@ -1,0 +1,157 @@
+<div
+  class="alert alert-danger alert-dismissible fade show"
+  role="alert"
+  *ngIf="exibirAlertaQtdDigitada"
+>
+  <strong
+    >A quantidade digitada é maio do que a quantidade disponível em
+    estoque.</strong
+  >
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="card-deck mt-1 mb-3">
+  <div
+    class="card"
+    [ngClass]="{
+      border: produtoSelecionado === 'APARELHO',
+      'border-warning': produtoSelecionado === 'APARELHO'
+    }"
+    style="cursor: pointer"
+    (click)="!movimentacao?.idProduto && selecionaProduto('APARELHO')"
+  >
+    <div class="card-body">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <h5>Lince GPS Brasil</h5>
+        <h6><span class="badge badge-primary">APARELHO</span></h6>
+      </div>
+    </div>
+  </div>
+  <div
+    class="card"
+    [ngClass]="{
+      border: produtoSelecionado === 'ASSINATURA',
+      'border-warning': produtoSelecionado === 'ASSINATURA'
+    }"
+    style="cursor: pointer"
+    (click)="!movimentacao?.idProduto && selecionaProduto('ASSINATURA')"
+  >
+    <div class="card-body">
+      <div class="d-flex flex-column justify-content-center align-items-center">
+        <h5>Lince GPS Brasil</h5>
+        <h6><span class="badge badge-secondary">ASSINATURA</span></h6>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-6">
+    <div class="form-group">
+      <label for="origem">Origem</label>
+      <div>
+        <p-autoComplete
+          [dropdown]="true"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="movimentacao.pontoVendaDTOOrigem"
+          [suggestions]="pontosVendasOrigemFiltrados"
+          (completeMethod)="filterAutoComplete($event, pontosVendasOrigem)"
+          field="nome"
+          appendTo="body"
+          (onSelect)="filterArrayDestino($event)"
+          [disabled]="
+            !movimentacao?.idProduto ||
+            movimentacao.tipoMovimentacao === 'ENTRADA'
+          "
+        ></p-autoComplete>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="form-group">
+      <label for="destino">Destino</label>
+      <div>
+        <p-autoComplete
+          [dropdown]="true"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="movimentacao.pontoVendaDTODestino"
+          [suggestions]="pontosVendasDestinoFiltrados"
+          (completeMethod)="
+            filterAutoComplete($event, pontosVendasDestino, false)
+          "
+          field="nome"
+          dataKey="id"
+          appendTo="body"
+          [disabled]="
+            !movimentacao?.idProduto ||
+            movimentacao.tipoMovimentacao === 'ENTRADA'
+          "
+        ></p-autoComplete>
+      </div>
+    </div>
+  </div>
+  <div class="col-6">
+    <div class="form-group">
+      <label class="d-block">Quantidade</label>
+      <span class="p-input-icon-right w-100">
+        <i class="pi pi-spin pi-spinner" *ngIf="loadingInputQuantidade"></i>
+        <input
+          type="text"
+          pInputText
+          [(ngModel)]="movimentacao.quantidade"
+          [style]="{ width: '100%' }"
+          (keyup)="debounce.next(movimentacao.quantidade)"
+          [disabled]="!movimentacao?.idProduto"
+        />
+      </span>
+    </div>
+  </div>
+
+  <div class="col-6">
+    <div class="form-group">
+      <label for="dataEntrada">{{
+        movimentacao.tipoMovimentacao === "ENTRADA"
+          ? "Data de entrada"
+          : "Data da movimentação"
+      }}</label>
+      <div>
+        <p-calendar
+          [(ngModel)]="movimentacao.data"
+          [showIcon]="true"
+          [locale]="pt"
+          [maxDate]="maxDateValue"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [disabled]="!movimentacao?.idProduto"
+        ></p-calendar>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="d-flex justify-content-end mt-3">
+  <button
+    *ngIf="!movimentacao.id"
+    pButton
+    pRipple
+    label="Adicionar"
+    icon="pi pi-plus"
+    class="p-button-success"
+    (click)="adicionar()"
+  ></button>
+
+  <button
+    *ngIf="movimentacao.id"
+    pButton
+    pRipple
+    label="Alterar"
+    icon="pi pi-pencil"
+    class="p-button-success"
+    (click)="alterar(movimentacao.id)"
+  ></button>
+</div>

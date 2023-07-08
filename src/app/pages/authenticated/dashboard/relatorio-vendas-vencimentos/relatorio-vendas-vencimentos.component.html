@@ -1,0 +1,27 @@
+<div class="w-100">
+  <h2>Renovação</h2>
+  <div class="separator-2 mb-5"></div>
+  <app-filtro
+    [filtroVencimentos]="true"
+    (filtrarEvent)="pesquisar($event)"
+  ></app-filtro>
+  <div class="row">
+    <div class="col-xl-6 col-md-6 col-12">
+      <app-card-dashboard titulo="Assinaturas a vencer">
+        <div class="d-flex align-items-center justify-content-center">
+          <h4>
+            {{ vendas?.length }}
+          </h4>
+        </div>
+        <div *ngIf="vendas?.length > 0">
+          <hr />
+          <div class="d-flex align-items-center justify-content-center">
+            <a href="#" class="badge badge-info" style="font-size: 15px">
+              <i class="fas fa-external-link-alt mr-2"></i>Detalhar
+            </a>
+          </div>
+        </div>
+      </app-card-dashboard>
+    </div>
+  </div>
+</div>

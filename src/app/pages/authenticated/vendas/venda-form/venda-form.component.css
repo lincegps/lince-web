@@ -1,0 +1,25 @@
+.aw-box {
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #eeeeee;
+  border-bottom: 3px solid #ffc107;
+  display: flex;
+  justify-content: space-between;
+  width: 22rem;
+  background-color: white;
+}
+.aw-box__icon {
+  float: left;
+  color: #ffc107;
+}
+.aw-box__value {
+  font-size: 1.69em;
+  font-weight: 300;
+  text-align: right;
+}
+.aw-box__title {
+  display: block;
+  font-size: 1em;
+  font-weight: 600;
+  text-align: right;
+}

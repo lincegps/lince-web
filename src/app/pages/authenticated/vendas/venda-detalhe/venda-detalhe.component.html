@@ -1,0 +1,114 @@
+<div class="d-flex flex-column mt-2">
+  <div class="card p-3">
+    <div class="row">
+      <div class="col-6">
+        <div class="h6">
+          {{ venda.produto.nome }}
+          <span
+            class="badge badge-pill"
+            [ngClass]="
+              venda.produto.tipo === 'APARELHO'
+                ? 'badge-warning'
+                : 'badge-secondary'
+            "
+            >{{ venda.produto.tipo }}</span
+          >
+        </div>
+      </div>
+      <div class="col-6">
+        <span><strong>Número de série: </strong>{{ venda.numeroSerie }}</span>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <span
+          ><strong>Ponto de venda: </strong>{{ venda.pontoVenda.nome }}</span
+        >
+      </div>
+      <div class="col-6">
+        <span
+          ><strong>Responsável: </strong
+          >{{ venda.pontoVenda.responsavel }}</span
+        >
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <span><strong>Cliente: </strong>{{ venda.cliente.nome }}</span>
+      </div>
+      <div class="col-6">
+        <span><strong>CPF: </strong>{{ venda.cliente.cpfOuCnpj }}</span>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <span
+          ><strong>Data da venda: </strong
+          >{{ venda.data | date: "dd/MM/yyyy" }}</span
+        >
+      </div>
+      <div class="col-6">
+        <span
+          ><strong>Data do vencimento: </strong
+          >{{ venda.dataVencimento | date: "dd/MM/yyyy" }}</span
+        >
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6">
+        <span
+          ><strong>Forma do pagamento: </strong>{{ venda.formaPagamento }}</span
+        >
+      </div>
+      <div class="col-6" *ngIf="venda.codigoCartao">
+        <span><strong>Código do cartão: </strong>{{ venda.codigoCartao }}</span>
+      </div>
+      <div class="col-6" *ngIf="venda.bandeira">
+        <span><strong>Bandeira: </strong>{{ venda.bandeira }}</span>
+      </div>
+      <div class="col-6">
+        <span>
+          <strong>Status do pagamento: </strong>
+          <span
+            class="badge badge-pill"
+            [ngClass]="{
+              'badge-success': venda.statusVenda === 'PAGO',
+              'badge-danger': venda.statusVenda === 'CANCELADA',
+              'badge-warning': venda.statusVenda === 'PENDENTE'
+            }"
+          >
+            {{ venda.statusVenda }}</span
+          >
+        </span>
+      </div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-6" *ngIf="venda.pontoVendaEntrega">
+        <span
+          ><strong>Vendendor: </strong>
+          {{ venda?.pontoVendaEntrega.nome }}</span
+        >
+      </div>
+      <div class="col-6 mb-2" *ngIf="venda.desconto">
+        <span
+          ><strong>Desconto: </strong>
+          {{ venda.desconto | currency: "BRL":"symbol" }}</span
+        >
+      </div>
+      <div class="col-6">
+        <span
+          ><strong>Valor: </strong>
+          {{ venda.valorTotal | currency: "BRL":"symbol" }}</span
+        >
+      </div>
+    </div>
+    <div class="row" *ngIf="venda.observacao">
+      <div class="col-12">
+        <span><strong>Observação: </strong>{{ venda.observacao }}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="d-flex justify-content-center align-items-center">
+  <button class="btn btn-sm btn-secondary" (click)="fechar()" >Fechar</button>
+</div>

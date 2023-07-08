@@ -1,0 +1,19 @@
+<div class="card w-100">
+  <div class="card-header d-flex align-items-center justify-content-between">
+    <span style="font-size: 15pt" class="flex-grow-1">
+      {{ titulo }}
+    </span>
+    <a
+      href="#"
+      class="badge badge-info"
+      style="font-size: 15px"
+      *ngIf="exibirIcone"
+      (click)="iconClick.emit()"
+    >
+      <i class="fas fa-external-link-alt mr-2"></i>Detalhar
+    </a>
+  </div>
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+</div>

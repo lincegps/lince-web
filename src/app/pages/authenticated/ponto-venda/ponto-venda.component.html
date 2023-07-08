@@ -1,0 +1,112 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Pontos de Venda</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            label="Novo"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openModalPontovendaForm()"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator-2"></div>
+    <div class="card">
+      <p-table
+        *ngIf="pontovendas.length > 0; else templateListEmpty"
+        #dt
+        [value]="pontovendas"
+        [rows]="7"
+        [paginator]="true"
+        [(selection)]="selectedPontovendas"
+        [rowHover]="true"
+        dataKey="id"
+        [showCurrentPageReport]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Nome</th>
+            <th colspan="1">Cidade</th>
+            <th colspan="1">Bairro</th>
+            <th>Responsável</th>
+            <!-- <th>Telefone</th>
+        <th colspan="2">Email</th> -->
+            <th colspan="1"></th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-ponto>
+          <tr>
+            <td>{{ ponto.nome }}</td>
+            <td colspan="1">{{ ponto.cidade }}</td>
+            <td colspan="1">{{ ponto.bairro }}</td>
+            <td>{{ ponto.responsavel }}</td>
+            <!-- <td>
+          <ul>
+            <li *ngFor="let telefone of ponto.telefones">{{ telefone }}</li>
+          </ul>
+        </td>
+        <td colspan="2">
+          <ul>
+            <li *ngFor="let email of ponto.emails">{{ email }}</li>
+          </ul>
+        </td> -->
+            <td colspan="1">
+              <a
+                class="badge badge-success"
+                style="font-size: 1em; color: #fff"
+                *ngIf="ponto.ativo; else templateInativo"
+                >Ativo</a
+              >
+              <ng-template #templateInativo>
+                <a
+                  class="badge badge-danger"
+                  style="font-size: 1em; color: #fff"
+                  >Inativo</a
+                >
+              </ng-template>
+            </td>
+            <td class="d-flex justify-content-center">
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="openModalPontovendaForm(ponto.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="confirmDelete(ponto.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            No total, existem {{ pontovendas ? pontovendas.length : 0 }} Pontos
+            de Vendas.
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<ng-template #templateListEmpty>
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 300px; background-color: #f8f9fa"
+  >
+    <h5>Nenhum ponto de venda cadastrado</h5>
+  </div>
+</ng-template>

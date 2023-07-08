@@ -1,0 +1,261 @@
+<form class="mt-3" [formGroup]="formulario" (ngSubmit)="onSubmit()">
+  <div class="row mb-4">
+    <div class="col-md-4">
+      <label>Produto *</label>
+      <p-autoComplete
+        formControlName="produto"
+        [style]="{ width: '100%' }"
+        [dropdown]="true"
+        [suggestions]="produtosFiltrados"
+        (completeMethod)="filtrarProdutos($event)"
+        field="nome"
+        appendTo="body"
+        [styleClass]="aplicaCssErro('produto')"
+        (onSelect)="
+          calculaValorTotal(
+            $event,
+            formulario.get('desconto')?.value,
+            formulario?.get('quantidade')?.value
+          );
+          formulario.get('data').setValue(null);
+          formulario.get('dataVencimento').setValue(null)
+        "
+      ></p-autoComplete>
+    </div>
+    <div class="col-md-4">
+      <div class="p-field mr-2">
+        <div class="d-flex">
+          <label>Ponto de venda *</label>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-plus"
+            class="ml-2 p-button-rounded p-button-success"
+            [style]="{ width: '30px', height: '30px', 'margin-top': '-3px' }"
+            (click)="openModalPontovendaForm()"
+          ></button>
+        </div>
+        <p-autoComplete
+          [style]="{ width: '100%' }"
+          formControlName="pontoVenda"
+          [dropdown]="true"
+          [suggestions]="pontoVendasFiltrados"
+          (completeMethod)="filtrarPontosDeVendas($event)"
+          field="nome"
+          appendTo="body"
+          [styleClass]="aplicaCssErro('pontoVenda')"
+          (onSelect)="
+            formulario.get('data').setValue(null);
+            formulario.get('dataVencimento').setValue(null)
+          "
+        ></p-autoComplete>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="d-flex">
+        <label>Cliente *</label>
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="ml-2 p-button-rounded p-button-success"
+          [style]="{ width: '30px', height: '30px', 'margin-top': '-3px' }"
+          (click)="openModalClienteForm()"
+        ></button>
+      </div>
+
+      <p-autoComplete
+        [style]="{ width: '100%' }"
+        [dropdown]="true"
+        formControlName="cliente"
+        [suggestions]="clientesFiltrados"
+        (completeMethod)="filtrarClientes($event)"
+        field="nome"
+        appendTo="body"
+        (onSelect)="
+          formulario.get('data').setValue(null);
+          formulario.get('dataVencimento').setValue(null)
+        "
+      ></p-autoComplete>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-md-2">
+      <label>Numero de série *</label>
+      <input
+        type="text"
+        [style]="{ width: '100%' }"
+        pInputText
+        formControlName="numeroSerie"
+      />
+    </div>
+    <div class="col-md-2">
+      <label>Data *</label>
+      <p-calendar
+        [style]="{ width: '100%' }"
+        formControlName="data"
+        [showIcon]="true"
+        [locale]="pt"
+        [maxDate]="maxDateValue"
+        [showButtonBar]="true"
+        [style]="{ width: '100%' }"
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        (onSelect)="obterDataVencimento()"
+        [disabled]="
+          !formulario.get('produto').value ||
+          !formulario.get('pontoVenda').value ||
+          !formulario.get('cliente').value
+        "
+      ></p-calendar>
+    </div>
+    <div class="col-md-2">
+      <label>Data vencimento</label>
+      <p-calendar
+        [style]="{ width: '100%' }"
+        formControlName="dataVencimento"
+        [showIcon]="true"
+        [locale]="pt"
+        [showButtonBar]="true"
+        [style]="{ width: '100%' }"
+        dateFormat="dd/mm/yy"
+        appendTo="body"
+        [disabled]="!formulario.get('data').value"
+      ></p-calendar>
+    </div>
+
+    <div class="col-md-2">
+      <label
+        >Valor
+        {{
+          formulario.get("formaPagamento").value === "CORTESIA" ? "" : "*"
+        }}</label
+      >
+      <input
+        type="text"
+        [style]="{ width: '100%' }"
+        pInputText
+        formControlName="valor"
+      />
+    </div>
+
+    <div
+      class="col-md-2"
+      *ngIf="formulario.get('formaPagamento').value !== 'CORTESIA'"
+    >
+      <label>Desconto</label>
+      <input
+        type="text"
+        [style]="{ width: '100%' }"
+        pInputText
+        formControlName="desconto"
+      />
+    </div>
+    <div class="col-md-2">
+      <label>Forma de pagamento *</label>
+      <p-dropdown
+        [options]="formasDePagamentos"
+        [style]="{ width: '100%' }"
+        formControlName="formaPagamento"
+        (onChange)="onChangeFormaPagamento()"
+        (onFocus)="onChangeFormaPagamento()"
+      ></p-dropdown>
+    </div>
+  </div>
+  <div class="row mb-4">
+    <div class="col-2" *ngIf="exibirDaDosDoCartao">
+      <label>Bandeira</label>
+      <input
+        type="text"
+        [style]="{ width: '100%' }"
+        pInputText
+        formControlName="bandeira"
+      />
+    </div>
+    <div class="col-2" *ngIf="exibirDaDosDoCartao">
+      <label>Código cartão:</label>
+      <input
+        type="text"
+        [style]="{ width: '100%' }"
+        pInputText
+        formControlName="codigoCartao"
+      />
+    </div>
+    <div class="col-3">
+      <label>Status do pagamento</label>
+      <p-selectButton
+        [options]="statusItens"
+        formControlName="statusVenda"
+      ></p-selectButton>
+    </div>
+    <div class="col-2">
+      <div class="p-field-checkbox">
+        <p-checkbox
+          formControlName="indNotaFiscal"
+          [binary]="true"
+          inputId="notaFiscal"
+        ></p-checkbox>
+        <label
+          for="notaFiscal"
+          style="margin-bottom: 0; margin-top: 37px; margin-left: 15px"
+          >Nota fiscal emitida</label
+        >
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="p-field mr-2">
+        <div class="d-flex">
+          <label>Vendendor *</label>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="pi pi-plus"
+            class="ml-2 p-button-rounded p-button-success"
+            [style]="{ width: '30px', height: '30px', 'margin-top': '-3px' }"
+            (click)="openModalPontovendaForm()"
+          ></button>
+        </div>
+        <p-autoComplete
+          [style]="{ width: '100%' }"
+          formControlName="pontoVendaEntrega"
+          [dropdown]="true"
+          [suggestions]="pontoVendasFiltrados"
+          (completeMethod)="filtrarPontosDeVendas($event)"
+          field="nome"
+          appendTo="body"
+          [styleClass]="aplicaCssErro('pontoVendaEntrega')"
+        ></p-autoComplete>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 mb-3">
+      <label>Observação</label>
+      <textarea
+        [style]="{ width: '100%' }"
+        pInputTextarea
+        autoResize="autoResize"
+        formControlName="observacao"
+      ></textarea>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center mt-4">
+    <button
+      pButton
+      type="button"
+      label="Fechar"
+      class="p-button-secondary mr-3"
+      (click)="fecharDialog()"
+    ></button>
+    <button
+      pButton
+      type="submit"
+      label="Salvar"
+      [disabled]="formulario.invalid"
+    ></button>
+  </div>
+</form>

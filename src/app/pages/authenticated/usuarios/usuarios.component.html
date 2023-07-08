@@ -1,0 +1,81 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Usuários</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            label="Novo"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openModalUsuarioForm()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="separator-2"></div>
+    <div class="card">
+      <p-table
+        *ngIf="usuarios.length > 0; else templateListEmpty"
+        #dt
+        [value]="usuarios"
+        [rows]="7"
+        [paginator]="true"
+        [rowHover]="true"
+        dataKey="id"
+        [showCurrentPageReport]="true"
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th pSortableColumn="nome">
+              Nome <p-sortIcon field="nome"></p-sortIcon>
+            </th>
+            <th>Usuário</th>
+            <th>Status</th>
+            <!-- <th></th> -->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-usuario>
+          <tr>
+            <td>{{ usuario.nome }}</td>
+            <td>{{ usuario.usuario }}</td>
+            <td>
+              <a
+                (click)="alterarStatus(usuario)"
+                class="badge badge-success"
+                style="font-size: 1em; color: #fff"
+                *ngIf="usuario.ativo; else templateInativo"
+                >Ativo</a
+              >
+              <ng-template #templateInativo>
+                <a
+                  (click)="alterarStatus(usuario)"
+                  class="badge badge-danger"
+                  style="font-size: 1em; color: #fff"
+                  >Inativo</a
+                >
+              </ng-template>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            No total, existem {{ usuarios ? usuarios.length : 0 }} usuários.
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<ng-template #templateListEmpty>
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 300px; background-color: #f8f9fa"
+  >
+    <h5>Nenhum usuário cadastrado</h5>
+  </div>
+</ng-template>

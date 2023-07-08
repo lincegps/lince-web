@@ -1,0 +1,112 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Clientes</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            label="Novo"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openModalClienteForm()"
+          ></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="separator-2"></div>
+    <app-cliente-filtro (filtroEvent)="pesquisar($event)"></app-cliente-filtro>
+    <div class="card">
+      <p-table
+        *ngIf="clientes.length > 0; else templateListEmpty"
+        [value]="clientes"
+        [responsive]="true"
+        [paginator]="true"
+        [rows]="filtro.itensPorPagina"
+        [lazy]="true"
+        [totalRecords]="totalRegistros"
+        (onLazyLoad)="aoMudarPagina($event)"
+        #tabela
+      >
+        <ng-template pTemplate="header">
+          <tr>
+            <th style="width: 3rem">
+              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+            </th>
+            <th pSortableColumn="nome">
+              Nome <p-sortIcon field="nome"></p-sortIcon>
+            </th>
+            <th>CPF ou CNPJ</th>
+            <th>Número série</th>
+            <th>Telefones</th>
+            <th>E-mails</th>
+            <th></th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-cliente>
+          <tr>
+            <td>
+              <p-tableCheckbox [value]="cliente"></p-tableCheckbox>
+            </td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.cpfOuCnpj }}</td>
+            <td>
+              <span *ngIf="cliente.numeroSerie; else templateVazio">
+                {{ cliente.numeroSerie }}
+              </span>
+            </td>
+            <td>
+              <ul *ngIf="cliente.telefones.length; else templateVazio">
+                <li *ngFor="let telefone of cliente.telefones">
+                  {{ telefone }}
+                </li>
+              </ul>
+            </td>
+            <td>
+              <ul *ngIf="cliente.emails.length; else templateVazio">
+                <li *ngFor="let email of cliente.emails">{{ email }}</li>
+              </ul>
+            </td>
+            <td class="d-flex justify-content-center">
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="openModalClienteForm(cliente.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="confirmDelete(cliente.id)"
+              ></button>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="summary">
+          <div class="p-d-flex p-ai-center p-jc-between">
+            No total, existem {{ totalRegistros }} clientes.
+          </div>
+        </ng-template>
+      </p-table>
+    </div>
+  </div>
+</div>
+<ng-template #templateListEmpty>
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 300px; background-color: #f8f9fa"
+  >
+    <h5>Nenhum cliente cadastrado</h5>
+  </div>
+</ng-template>
+
+<ng-template #templateVazio>
+  <span> - </span>
+</ng-template>

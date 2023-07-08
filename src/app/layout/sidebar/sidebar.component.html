@@ -1,0 +1,90 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary animated fadeIn slow">
+  <!-- Brand Logo -->
+  <a class="brand-link">
+    <img
+      src="assets/logo.png"
+      alt="Lince GPS Brasil"
+      class="brand-image img-circle"
+    />
+    <span class="brand-text font-weight-light">Lince GPS Brasil</span>
+  </a>
+
+  <div class="sidebar">
+    <nav class="mt-2">
+      <ul
+        class="nav nav-pills nav-sidebar flex-column"
+        data-widget="treeview"
+        role="menu"
+        data-accordion="false"
+      >
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['/']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="nav-icon fas fa-th"></i>
+            <p>Dashboard</p></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['vendas']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="nav-icon far fa-credit-card"></i>
+            <p>Vendas</p></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['contato']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+          <i class="nav-icon fas fa-id-card-alt"></i>
+            <p>Contato pós-venda</p></a
+          >
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            [routerLink]="['estoque']"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            <i class="nav-icon fas fa-box"></i>
+            <p>Movimentação</p></a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="clientes" routerLinkActive="active">
+            <i class="fas fa-users nav-icon"></i>
+            <p>Clientes</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="ponto-venda"
+            routerLinkActive="active"
+          >
+            <i class="fas fa-dolly-flatbed nav-icon"></i>
+            <p>Ponto de vendas</p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="usuarios" routerLinkActive="active">
+            <i class="far fa-circle nav-icon"></i>
+            <p>Usuários</p>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</aside>

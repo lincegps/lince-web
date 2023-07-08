@@ -1,0 +1,14 @@
+.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active,
+.sidebar-light-primary .nav-sidebar > .nav-item > .nav-link.active {
+  background-color: #ffc107;
+  color: #343a40;
+  font-weight: 600;
+}
+
+.nav-treeview > .nav-item > .nav-link.active,
+[class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:focus,
+[class*="sidebar-dark-"] .nav-treeview > .nav-item > .nav-link.active:hover {
+  background-color: #ffc107;
+  color: #343a40;
+  font-weight: 600;
+}

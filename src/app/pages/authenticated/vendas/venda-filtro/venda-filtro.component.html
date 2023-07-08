@@ -1,0 +1,135 @@
+<div class="card p-4">
+  <div class="row mt-2">
+    <div class="col-md-2">
+      <span
+        class="p-float-label"
+        [ngClass]="{ 'filtro-ativo': filtro.pontoVenda }"
+      >
+        <p-dropdown
+          id="pontoVendaDestino"
+          [(ngModel)]="filtro.pontoVenda"
+          [options]="pontosVendas"
+          [showClear]="true"
+          [filter]="true"
+          [autoDisplayFirst]="false"
+          styleClass="font-filtros"
+          emptyFilterMessage="Nenhum resultado encontrado."
+          [style]="{ width: '100%' }"
+          (onChange)="filtrar()"
+        >
+        </p-dropdown>
+        <label class="input-label" for="pontoVendaDestino"
+          >Ponto de venda</label
+        >
+      </span>
+    </div>
+    <div class="col-md-2">
+      <p-selectButton
+        [options]="produtos"
+        [(ngModel)]="filtro.tipoProduto"
+        (onChange)="filtrar()"
+      ></p-selectButton>
+    </div>
+
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.dataCriacaoInicio"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          (onSelect)="filtrar()"
+          (onClearClick)="filtrar()"
+        ></p-calendar>
+        <label for="dtInicio">Data Inicio</label>
+      </span>
+    </div>
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.dataCriacaoFim"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          (onSelect)="filtrar()"
+          (onClearClick)="filtrar()"
+        ></p-calendar>
+        <label for="dtFim">Data Fim</label>
+      </span>
+    </div>
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.dataVencimentoInicio"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          (onSelect)="filtrar()"
+          (onClearClick)="filtrar()"
+        ></p-calendar>
+        <label for="dtVencimentoInicio">Data vencimento início</label>
+      </span>
+    </div>
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.dataVencimentoFim"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          (onSelect)="filtrar()"
+          (onClearClick)="filtrar()"
+        ></p-calendar>
+        <label for="dtVencimentoFim">Data vencimento fim</label>
+      </span>
+    </div>
+  </div>
+  <div class="row mt-5">
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-dropdown
+          [options]="formasDePagamentos"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.formaPagamento"
+          (onChange)="filtrar()"
+        ></p-dropdown>
+        <label for="formaPagamento">Forma de pagamento</label>
+      </span>
+    </div>
+    <div class="col-md-2">
+      <span class="p-float-label">
+        <p-dropdown
+          [options]="statusItens"
+          [style]="{ width: '100%' }"
+          [(ngModel)]="filtro.statusVenda"
+          (onChange)="filtrar()"
+        ></p-dropdown>
+        <label for="statusPagemnto">Status pagamento</label>
+      </span>
+    </div>
+    <div class="col-md-1">
+      <div class="d-flex align-items-center justify-content-end">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Limpar"
+          class="p-button-raised p-button-secondary p-button-text mr-3"
+          (click)="limparFiltro()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>

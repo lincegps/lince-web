@@ -1,0 +1,108 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2 align-items-center">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Contatos realizados</h1>
+      </div>
+      <div class="col-sm-6">
+        <div class="d-flex align-items-center justify-content-end">
+          <button
+            pButton
+            pRipple
+            label="Novo contato"
+            icon="pi pi-plus"
+            class="p-button-success btn-sm mr-2"
+            (click)="openContatoPosVendaForm()"
+          ></button>
+        </div>
+      </div>
+    </div>
+    <div class="separator-2"></div>
+    <div
+      class="d-flex flex-column"
+      *ngIf="contatos.length > 0; else templateListEmpty"
+    >
+      <div class="card p-3" *ngFor="let contato of contatos">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="d-flex flex-column">
+                  <span
+                    ><strong>Data: </strong>
+                    {{ contato?.data | date: "dd/MM/yyyy" }}</span
+                  >
+                  <span
+                    ><strong>Tipo do contato: </strong>
+                    {{ obterTipoContato(contato?.tipo) }}</span
+                  >
+                  <span
+                    ><strong>Feedback do contato: </strong>
+                    {{ contato?.feedback }}</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex flex-column">
+                  <span
+                    ><strong>Número de série: </strong>
+                    {{ contato?.venda?.numeroSerie }}</span
+                  >
+                  <span
+                    ><strong>Cliente: </strong>
+                    {{ contato?.venda?.cliente?.nome }}</span
+                  >
+                  <span
+                    ><strong>Ponto de venda: </strong>
+                    {{ contato?.venda?.pontoVenda?.nome }}</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex flex-column">
+                  <span
+                    ><strong>Produto: </strong>
+                    {{ contato?.venda?.produto?.nome }}</span
+                  >
+                  <span
+                    ><strong>Observacao: </strong>
+                    {{ contato?.observacao }}</span
+                  >
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="d-flex flex-column"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <div class="d-flex justify-content-center align-items-center h-100">
+              <button
+                pButton
+                pRipple
+                icon="pi pi-pencil"
+                class="p-button-rounded p-button-success mr-2"
+                (click)="openContatoPosVendaForm(contato.id)"
+              ></button>
+              <button
+                pButton
+                pRipple
+                icon="pi pi-trash"
+                class="p-button-rounded p-button-danger"
+                (click)="confirmDelete(contato.id)"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #templateListEmpty>
+  <div
+    class="d-flex justify-content-center align-items-center"
+    style="height: 300px; background-color: #f8f9fa"
+  >
+    <h5>Nenhum cliente cadastrado</h5>
+  </div>
+</ng-template>

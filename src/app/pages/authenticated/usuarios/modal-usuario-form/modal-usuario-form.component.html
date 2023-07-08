@@ -1,0 +1,44 @@
+<div class="row">
+  <div class="col-12">
+    <div class="form-group">
+      <label for="nome">Nome</label>
+      <input
+        type="text"
+        class="form-control"
+        id="nome"
+        [(ngModel)]="usuario.nome"
+      />
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-group">
+      <label for="usuario">Usuário</label>
+      <input
+        type="text"
+        class="form-control"
+        id="usuario"
+        [(ngModel)]="usuario.usuario"
+      />
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="form-group">
+      <label for="nome">Senha</label>
+      <span class="fa far-eye"></span>
+      <input
+        type="password"
+        class="form-control"
+        id="senha"
+        [(ngModel)]="usuario.senha"
+      />
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-12">
+    <div class="d-flex justify-content-end align-items-center">
+      <p-button label="Salvar" (onClick)="onSubmit()"></p-button>
+    </div>
+  </div>
+</div>

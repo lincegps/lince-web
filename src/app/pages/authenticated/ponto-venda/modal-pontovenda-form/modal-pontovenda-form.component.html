@@ -1,0 +1,86 @@
+<form class="form-horizontal">
+  <div class="row">
+    <div class="col-12 col-md-12">
+      <div class="form-group">
+        <label for="nomePontoVenda">Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          id="nomePontoVenda"
+          name="nome"
+          [(ngModel)]="pontovenda.nome"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="form-group">
+        <label for="responsavel">Responsável</label>
+        <input
+          type="text"
+          class="form-control"
+          id="responsavel"
+          name="responsavel"
+          [(ngModel)]="pontovenda.responsavel"
+        />
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="form-group">
+        <label for="telefone">Cidade</label>
+        <input
+          type="text"
+          class="form-control"
+          id="telefone"
+          name="telefone"
+          [(ngModel)]="pontovenda.cidade"
+        />
+      </div>
+    </div>
+    <div class="col-12 col-md-4">
+      <div class="form-group">
+        <label for="localidade">Bairro</label>
+        <input
+          type="text"
+          class="form-control"
+          id="localidade"
+          name="lodalidade"
+          [(ngModel)]="pontovenda.bairro"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- <div class="row">
+    <div class="col-12 col-md-4">
+      <div class="form-group">
+        <label for="telefone">Telefone</label>
+        <input
+          type="text"
+          class="form-control"
+          id="telefone"
+          name="telefone"
+          [(ngModel)]="pontovenda.telefones"
+        />
+      </div>
+    </div>
+    <div class="col-12 col-md-8">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input
+          type="text"
+          class="form-control"
+          id="email"
+          name="email"
+          [(ngModel)]="pontovenda.emails"
+        />
+      </div>
+    </div>
+  </div> -->
+
+  <div class="d-flex justify-content-end mt-3">
+    <p-button label="Salvar" (onClick)="onSubmit()"></p-button>
+  </div>
+</form>

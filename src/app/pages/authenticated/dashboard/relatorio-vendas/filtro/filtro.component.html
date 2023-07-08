@@ -1,0 +1,68 @@
+<div class="mt-4 mb-3 w-100">
+  <div class="row" *ngIf="!filtroVencimentos">
+    <div class="col-md-4">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          [showIcon]="showIcon"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="filtro.dataCriacaoInicio"
+          (onSelect)="filtrar()"
+        ></p-calendar>
+        <label for="calendar">Data início venda</label>
+      </span>
+    </div>
+    <div class="col-md-4">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          [showIcon]="showIcon"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="filtro.dataCriacaoFim"
+          (onSelect)="filtrar()"
+        ></p-calendar>
+        <label for="calendar">Data fim venda</label>
+      </span>
+    </div>
+  </div>
+  <div class="row" *ngIf="filtroVencimentos">
+    <div class="col-md-4">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="filtro.dataVencimentoInicio"
+          (onSelect)="filtrar()"
+        ></p-calendar>
+        <label for="calendar">Data início vencimento</label>
+      </span>
+    </div>
+    <div class="col-md-4">
+      <span class="p-float-label">
+        <p-calendar
+          [style]="{ width: '100%' }"
+          [locale]="pt"
+          [showButtonBar]="true"
+          [style]="{ width: '100%' }"
+          appendTo="body"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="filtro.dataVencimentoFim"
+          (onSelect)="filtrar()"
+        ></p-calendar>
+        <label for="calendar">Data fim vencimento</label>
+      </span>
+    </div>
+  </div>
+</div>

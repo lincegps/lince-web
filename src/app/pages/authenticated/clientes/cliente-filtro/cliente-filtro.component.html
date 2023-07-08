@@ -1,0 +1,59 @@
+<div class="card p-4">
+  <div class="row mt-2">
+    <div class="col-md-3">
+      <span class="p-float-label">
+        <p-inputMask
+          name="cpfOuCnpj"
+          [(ngModel)]="filtro.cpf"
+          mask="999.999.999-99"
+          [style]="{ width: '100%' }"
+        ></p-inputMask>
+        <label>CPF</label>
+      </span>
+    </div>
+    <div class="col-md-3">
+      <span class="p-float-label">
+        <input
+          type="text"
+          [style]="{ width: '100%' }"
+          pInputText
+          [(ngModel)]="filtro.nome"
+          name="nome"
+        />
+        <label>Nome</label>
+      </span>
+    </div>
+    <div class="col-md-3">
+      <span class="p-float-label">
+        <input
+          type="text"
+          [style]="{ width: '100%' }"
+          pInputText
+          [(ngModel)]="filtro.numeroSerie"
+          name="numeroSerie"
+        />
+        <label>Numero de série</label>
+      </span>
+    </div>
+    <div class="col-md-3">
+      <div class="d-flex justify-content-end">
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Limpar"
+          class="p-button-raised p-button-secondary p-button-text mr-3"
+          (click)="limparFiltro()"
+        ></button>
+        <button
+          pButton
+          pRipple
+          type="button"
+          label="Pesquisar"
+          class="p-button-raised p-button-primary"
+          (click)="pesquisar()"
+        ></button>
+      </div>
+    </div>
+  </div>
+</div>
